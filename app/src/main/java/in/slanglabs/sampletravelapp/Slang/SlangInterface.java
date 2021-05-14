@@ -101,12 +101,22 @@ public class SlangInterface {
             }
 
             @Override
-            public void onUnrecognisedUtterance(String s) {
-
+            public Status onUnrecognisedUtterance(String s) {
+                return Status.FAILURE;
             }
 
             @Override
             public void onUtteranceDetected(String s) {
+
+            }
+
+            @Override
+            public void onOnboardingSuccess() {
+
+            }
+
+            @Override
+            public void onOnboardingFailure() {
 
             }
         });
