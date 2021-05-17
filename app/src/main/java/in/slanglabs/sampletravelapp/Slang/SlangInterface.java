@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 
+import in.slanglabs.assistants.base.SlangAssistant;
 import in.slanglabs.assistants.travel.AssistantConfiguration;
 import in.slanglabs.assistants.travel.AssistantError;
 import in.slanglabs.assistants.travel.NavigationInfo;
@@ -101,8 +102,8 @@ public class SlangInterface {
             }
 
             @Override
-            public Status onUnrecognisedUtterance(String s) {
-                return Status.FAILURE;
+            public SlangAssistant.Status onUnrecognisedUtterance(String s) {
+                return SlangAssistant.Status.FAILURE;
             }
 
             @Override
