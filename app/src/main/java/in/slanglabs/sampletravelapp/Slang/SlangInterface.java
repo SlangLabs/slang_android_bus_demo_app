@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 
-import in.slanglabs.assistants.base.SlangAssistant;
 import in.slanglabs.assistants.travel.AssistantConfiguration;
 import in.slanglabs.assistants.travel.AssistantError;
 import in.slanglabs.assistants.travel.NavigationInfo;
@@ -20,6 +19,7 @@ import in.slanglabs.assistants.travel.SearchInfo;
 import in.slanglabs.assistants.travel.SearchUserJourney;
 import in.slanglabs.assistants.travel.SlangTravelAssistant;
 import in.slanglabs.assistants.travel.Station;
+import in.slanglabs.assistants.travel.TravelAssistantUIPosition;
 import in.slanglabs.platform.SlangLocale;
 import in.slanglabs.sampletravelapp.App;
 import in.slanglabs.sampletravelapp.Model.Place;
@@ -35,10 +35,17 @@ public class SlangInterface {
         requestedLocales.add(SlangLocale.LOCALE_ENGLISH_IN);
         requestedLocales.add(SlangLocale.LOCALE_HINDI_IN);
 
+        TravelAssistantUIPosition travelAssistantUIPosition
+                = new TravelAssistantUIPosition.Builder()
+                .setBaseUIPosition(TravelAssistantUIPosition.UIPosition.BOTTOM_RIGHT)
+                .setIsForcedAtStartup(true)
+                .build();
+
         AssistantConfiguration configuration = new AssistantConfiguration.Builder()
                 .setRequestedLocales(requestedLocales)
                 .setAssistantId(assitantId)
                 .setAPIKey(apiKey)
+                .setUIPosition(travelAssistantUIPosition)
                 .setDefaultLocale(SlangLocale.LOCALE_ENGLISH_IN)
                 .setEnvironment(SlangTravelAssistant.Environment.STAGING)
                 .build();
@@ -74,7 +81,7 @@ public class SlangInterface {
         SlangTravelAssistant.setLifecycleObserver(new SlangTravelAssistant.LifecycleObserver() {
             @Override
             public void onAssistantInitSuccess() {
-
+                Log.d(TAG,"onAssistantInitSuccess");
             }
 
             @Override
@@ -102,8 +109,8 @@ public class SlangInterface {
             }
 
             @Override
-            public SlangAssistant.Status onUnrecognisedUtterance(String s) {
-                return SlangAssistant.Status.FAILURE;
+            public boolean onUnrecognisedUtterance(String s) {
+                return false;
             }
 
             @Override
@@ -185,6 +192,19 @@ public class SlangInterface {
         }
     }
 
+    //This method is to notify SlangTravelAssistant that the search async operation resulted in source being empty.
+    public void notifySourceNotSpecified() {
+        if (searchUserJourney == null) return;
+        try {
+
+            //Notify the current appropriate app state for search.
+            searchUserJourney.setNeedSource();
+            searchUserJourney.notifyAppState(SearchUserJourney.AppState.SEARCH_RESULTS);
+        } catch (Exception e) {
+            Log.e(TAG, "" + e.getLocalizedMessage());
+        }
+    }
+
     //This method is to notify SlangTravelAssistant that the search async operation resulted in source being ambiguous.
     public void notifySourceAmbiguous() {
         if (searchUserJourney == null) return;
@@ -218,6 +238,19 @@ public class SlangInterface {
 
             //Notify the current appropriate app state for search.
             searchUserJourney.setDestinationAmbiguous();
+            searchUserJourney.notifyAppState(SearchUserJourney.AppState.SEARCH_RESULTS);
+        } catch (Exception e) {
+            Log.e(TAG, "" + e.getLocalizedMessage());
+        }
+    }
+
+    //This method is to notify SlangTravelAssistant that the search async operation resulted in destination being empty.
+    public void notifyDestinationNotSpecified() {
+        if (searchUserJourney == null) return;
+        try {
+
+            //Notify the current appropriate app state for search.
+            searchUserJourney.setNeedDestination();
             searchUserJourney.notifyAppState(SearchUserJourney.AppState.SEARCH_RESULTS);
         } catch (Exception e) {
             Log.e(TAG, "" + e.getLocalizedMessage());

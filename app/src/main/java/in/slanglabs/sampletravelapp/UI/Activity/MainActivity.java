@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -13,14 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import in.slanglabs.sampletravelapp.Model.BusFilterSortOptions;
-import in.slanglabs.sampletravelapp.Model.Place;
-import in.slanglabs.sampletravelapp.R;
-import in.slanglabs.sampletravelapp.UI.Fragment.SearchDialogFragment;
-import in.slanglabs.sampletravelapp.UI.ViewModel.AppViewModel;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -30,6 +22,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import in.slanglabs.sampletravelapp.Model.BusFilterSortOptions;
+import in.slanglabs.sampletravelapp.Model.Place;
+import in.slanglabs.sampletravelapp.R;
+import in.slanglabs.sampletravelapp.UI.Fragment.SearchDialogFragment;
+import in.slanglabs.sampletravelapp.UI.ViewModel.AppViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
